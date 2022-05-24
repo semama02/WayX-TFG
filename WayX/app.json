@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "WayX",
+    "slug": "WayX",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/WayX_logo.png",
+    "splash": {
+      "image": "./src/assets/wallpaperWhite.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyC2XsSm85LogoTtAL3SfzGf1A6qJLjXWg4"
+      }
+    },
+    "android": {
+      "softwareKeyboardLayoutMode": "pan",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/WayX_logo.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyC2XsSm85LogoTtAL3SfzGf1A6qJLjXWg4"
+        }
+      },
+      "versionCode": 1,
+      "package": "com.borealcode.WayX"
+    },
+    "web": {
+      "favicon": "./src/assets/favicon_WayX_logo.png"
+    }
+  }
+}
