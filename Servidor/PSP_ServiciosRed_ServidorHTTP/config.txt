@@ -1,0 +1,5 @@
+ip=10.0.0.4
+puerto=5000
+contexto=/wayx
+backlog=0
+numHilos=10
