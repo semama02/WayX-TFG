@@ -28,12 +28,22 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/sergio/Desktop/PSP_ServiciosRed_ServidorHTTP (3)/PSP_ServiciosRed_ServidorHTTP/json-20140107.jar">
+	<classpathentry kind="lib" path="C:/Users/smm_2/Desktop/WayX-TFG/WayX-TFG/Servidor/PSP_ServiciosRed_ServidorHTTP/json-20140107.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/sergio/Desktop/PSP_ServiciosRed_ServidorHTTP (3)/PSP_ServiciosRed_ServidorHTTP/mysql-connector-java-8.0.26.jar">
+	<classpathentry kind="lib" path="C:/Users/smm_2/Desktop/WayX-TFG/WayX-TFG/Servidor/PSP_ServiciosRed_ServidorHTTP/mysql-connector-java-8.0.26.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/smm_2/Desktop/WayX-TFG/WayX-TFG/Servidor/PSP_ServiciosRed_ServidorHTTP/activation-1.1.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/smm_2/Desktop/WayX-TFG/WayX-TFG/Servidor/PSP_ServiciosRed_ServidorHTTP/javax.mail-1.6.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

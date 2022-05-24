@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,8 +17,23 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Properties;
 import java.util.Scanner;
- 
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
 import org.json.JSONException;
 import org.json.JSONObject;
  
@@ -981,4 +997,39 @@ public class GestorHTTP implements HttpHandler {
  
 	}
 	// FIN BLOQUE RESPONSE
+	public static void envioMail (String mensaje, String asunto, String email_remitente, String email_remitente_pass,String host_email, String port_email, String[] email_destino, String anexo1, String anexo2) throws UnsupportedEncodingException, MessagingException{	
+		Properties props = System.getProperties();
+		props.put("mail.smtp.host", host_email);
+		props.put("mail.smtp.user", email_remitente);
+		props.put("mail.smtp.clave", email_remitente_pass);
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.port", port_email);
+		Session session = Session.getDefaultInstance(props);
+		MimeMessage message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(email_remitente));
+		for (int i = 0; i < email_destino.length; i++) {
+			message.addRecipients(Message.RecipientType.TO, email_destino[i]);
+		}
+		message.setSubject(asunto);
+		BodyPart messageBodyPart1 = new MimeBodyPart();
+		messageBodyPart1.setText(mensaje);
+		BodyPart messageBodyPart2 = new MimeBodyPart();
+		DataSource src= new FileDataSource(anexo1);	
+		messageBodyPart2.setDataHandler(new DataHandler(src));
+		messageBodyPart2.setFileName(anexo1);
+		BodyPart messageBodyPart3 = new MimeBodyPart();
+		DataSource src2= new FileDataSource(anexo2);	
+		messageBodyPart3.setDataHandler(new DataHandler(src2));
+		messageBodyPart3.setFileName(anexo2);
+		Multipart multipart = new MimeMultipart();
+		multipart.addBodyPart(messageBodyPart1);
+		multipart.addBodyPart(messageBodyPart2);
+		multipart.addBodyPart(messageBodyPart3);
+		message.setContent(multipart);
+		Transport transport = session.getTransport("smtp");
+		transport.connect(host_email, email_remitente, email_remitente_pass);
+		transport.sendMessage(message, message.getAllRecipients());
+		transport.close();
+	}
 }
