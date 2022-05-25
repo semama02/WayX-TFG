@@ -3,6 +3,7 @@ import { StatusBar, LogBox } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Begin from "./src/screens/Login/Begin";
+import ForgotPassword from "./src/screens/Email/ForgotPassword";
 import Register from "./src/screens/Register/Register";
 import BottomTabs from "./src/components/Navigation/BottomTabs/BottomTabs";
 import Home from "./src/screens/StartPage/Home";
@@ -39,6 +40,10 @@ export default function App() {
           name="Begin"
           component={Begin}
           initialParams={{ user: {} }}
+        />
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
         />
         <Stack.Screen
           name="Register"

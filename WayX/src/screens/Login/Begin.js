@@ -109,6 +109,18 @@ export default function Begin(props) {
           >
             {t("signUpTag")}
           </Button>
+          <Button
+            style={styles.botonRegis}
+            mode="text"
+            fontSize="20"
+            color="white"
+            onPress={() => {
+              props.navigation.navigate("ForgotPassword");
+              resetTextInputValues();
+            }}
+          >
+            {t("forgotpassword")}
+          </Button>
         </View>
         <View style={styles.empty2}></View>
       </ImageBackground>

@@ -293,6 +293,14 @@ public class GestorHTTP implements HttpHandler {
 			outputStream.write(htmlResponse.getBytes());
 			outputStream.flush();
 			outputStream.close();
+		} else if (ob.getString("type").equals("forgot_password")) {
+			verificar_email(requestParamValue);
+			OutputStream outputStream = httpExchange.getResponseBody();
+			String htmlResponse = email;
+			httpExchange.sendResponseHeaders(200, htmlResponse.length());
+			outputStream.write(htmlResponse.getBytes());
+			outputStream.flush();
+			outputStream.close();
 		}
 	}
  
@@ -345,7 +353,7 @@ public class GestorHTTP implements HttpHandler {
 		}
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+			Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE username=\""+ userName+"\" AND password=\""+ password+"\"");
 			while (rs.next()) {
@@ -389,7 +397,7 @@ public class GestorHTTP implements HttpHandler {
        String name_photo = nPhoto +"_"+ photo_counter + "." + extension;
        String path = "C:\\xampp\\htdocs\\images\\"+name_photo;
        File file = new File(path);
-       image_path = "http://20.126.87.123/images/" + name_photo;
+       image_path = "http://85.56.203.68/images/" + name_photo;
        try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file))) {
            outputStream.write(data);
        } catch (IOException e) {
@@ -404,7 +412,7 @@ public class GestorHTTP implements HttpHandler {
 		JSONObject ob = new JSONObject(name);
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		sameUser="Ok";
-		Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+		Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 		Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE username=\""+ ob.getString("userName")+"\"");
 		while (rs.next()) {
@@ -420,7 +428,7 @@ public class GestorHTTP implements HttpHandler {
 				psInsertar.setString(1,ob.getString("userName"));
 				psInsertar.setString(2,ob.getString("password"));
 				psInsertar.setString(3,ob.getString("email"));
-				psInsertar.setString(4,"http://20.126.87.123/images/user.png");
+				psInsertar.setString(4,"http://85.56.203.68/images/user.png");
 				psInsertar.setString(5,ob.getString("location"));
 				psInsertar.setString(6,ob.getString("typeRoute"));
 				int resultadoInsertar = psInsertar.executeUpdate();
@@ -449,7 +457,7 @@ public class GestorHTTP implements HttpHandler {
 		Integer contador = 0;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+			Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT location FROM users WHERE id="+ userId);
 			while (rs.next()) {
@@ -464,7 +472,7 @@ public class GestorHTTP implements HttpHandler {
  
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+			Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM route WHERE location=\""+ location+"\"");
 			while (rs.next()) {
@@ -495,7 +503,7 @@ public class GestorHTTP implements HttpHandler {
 		Integer contador = 0;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+			Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT typeRoute FROM users WHERE id="+ userId);
 			while (rs.next()) {
@@ -510,7 +518,7 @@ public class GestorHTTP implements HttpHandler {
  
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+			Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM route WHERE type=\""+ location+"\"");
 			while (rs.next()) {
@@ -537,7 +545,7 @@ public class GestorHTTP implements HttpHandler {
 		route="";
 		JSONObject ob = new JSONObject(name);
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+		Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 		Statement stmt = con.createStatement();
 		Integer id = 0;
 			PreparedStatement psInsertar = con.prepareStatement("INSERT INTO route (name, location, type, perfectTo, map, image, description) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -588,7 +596,7 @@ public class GestorHTTP implements HttpHandler {
 		String route_name = ob.getString("name");
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+			Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM route WHERE name=\""+ route_name+"\"");
 			while (rs.next()) {
@@ -622,7 +630,7 @@ public class GestorHTTP implements HttpHandler {
 		find_route_location_type="";
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+			Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM route WHERE type=\""+ route_type+"\" AND location=\""+ route_location+"\"");
 			while (rs.next()) {
@@ -655,7 +663,7 @@ public class GestorHTTP implements HttpHandler {
 		
 		//WE PICK THE ID ROUTES BY USER ID
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+		Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 		Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT userRoute FROM userroutes WHERE userId="+ob.getInt("user_id"));
 		ArrayList<Integer> ids = new ArrayList<Integer>();
@@ -698,7 +706,7 @@ public class GestorHTTP implements HttpHandler {
 		Integer contador = 0;
 		
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+		Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 		Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT routeId FROM visitedsites WHERE userId=\""+ob.getInt("user_id") + "\"");
 		ArrayList<Integer> ids = new ArrayList<Integer>();
@@ -736,7 +744,7 @@ public class GestorHTTP implements HttpHandler {
 		try {
 		JSONObject ob = new JSONObject(name);
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+		Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 		PreparedStatement psInsertar = con.prepareStatement("INSERT INTO visitedsites (userId, routeId) VALUES (?, ?)");
 		psInsertar.setInt(1,ob.getInt("user_id"));
 		psInsertar.setInt(2,ob.getInt("route_id"));
@@ -749,6 +757,41 @@ public class GestorHTTP implements HttpHandler {
 		return visited;
 	}
 	
+	public static String email = "";
+	public static String verificar_email(String name) throws SQLException, ClassNotFoundException {
+		email = "";
+		String valor = "";
+		JSONObject ob = new JSONObject(name);
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT email FROM users");
+		ArrayList<String> emails = new ArrayList<String>();
+	    while (rs.next()) {
+			emails.add(rs.getString(1));
+		}
+		String hostEmail = "smtp.gmail.com";
+		String portEmail = "587";
+		String strAsunto = "Recuperar Contraseña";
+		String strMensaje = "HEMOS SUFRIDO UNA AVERIA!!!";
+		String emailRemitente = "aev07add@gmail.com";
+		String emailRemitentePass = "SMM_2002";
+		String email = ob.getString("email");
+	    for (int i = 0; i < emails.size(); i++) {
+	    	if (emails.get(i) == email) {
+	    		valor =  "true";
+	    		try {
+	    			envioMail(strMensaje, strAsunto, hostEmail, portEmail, email, emailRemitente, emailRemitentePass);
+	    		}catch (UnsupportedEncodingException | MessagingException e) {
+	    			e.printStackTrace();
+	    		}
+	    	}else {
+	    		valor = "false";
+	    	}
+	    }
+		return valor;
+	}
+	
 	public static String isCompleted = "";
 	public static String isCompleted_route(String name) {
 		isCompleted = "";
@@ -756,7 +799,7 @@ public class GestorHTTP implements HttpHandler {
 		JSONObject ob = new JSONObject(name);
 		try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+		Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 		Statement stmt = con.createStatement();
 		System.out.println("SELECT * FROM visitedsites WHERE userId="+ob.getInt("user_id") + " AND routeId="+ob.getInt("route_id"));
 		ResultSet rs = stmt.executeQuery("SELECT * FROM visitedsites WHERE userId="+ob.getInt("user_id") + " AND routeId="+ob.getInt("route_id")+";");
@@ -782,7 +825,7 @@ public class GestorHTTP implements HttpHandler {
 		Integer counter = 0;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+			Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT routeId FROM visitedsites WHERE userId=\""+ob.getInt("user_id") + "\"");
 			while (rs.next()) {
@@ -807,7 +850,7 @@ public class GestorHTTP implements HttpHandler {
 			if (image.length()<50) {
 				try {
 					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+					Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 					PreparedStatement psActualizar = con.prepareStatement("UPDATE users SET userName= \"" + ob.getString("userName") + "\" ,password= \"" + ob.getString("password") + "\" ,email=\"" + ob.getString("email") + "\" ,image=\"" + ob.getString("image") + "\" ,location=\"" + ob.getString("location") + "\" ,typeRoute=\"" + ob.getString("type_route") + "\" WHERE id=" + ob.getInt("user_id") + "");
 					int resultadoActualizar = psActualizar.executeUpdate();
 					profile_update = "OK";
@@ -819,7 +862,7 @@ public class GestorHTTP implements HttpHandler {
 				try {
 					format_image(ob.getString("image"));
 					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+					Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 					PreparedStatement psActualizar = con.prepareStatement("UPDATE users SET userName= \"" + ob.getString("userName") + "\" ,password= \"" + ob.getString("password") + "\" ,email=\"" + ob.getString("email") + "\" ,image=\"" + image_path + "\" ,location=\"" + ob.getString("location") + "\" ,typeRoute=\"" + ob.getString("type_route") + "\" WHERE id=" + ob.getInt("user_id") + "");
 					int resultadoActualizar = psActualizar.executeUpdate();
 					profile_update = "OK";
@@ -836,7 +879,7 @@ public class GestorHTTP implements HttpHandler {
 		try {
 			JSONObject ob = new JSONObject(name);
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+			Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 			PreparedStatement psBorrar1 = con.prepareStatement("DELETE FROM visitedsites WHERE userId=\"" + ob.getInt("user_id") + "\"");
 			PreparedStatement psBorrar2 = con.prepareStatement("DELETE FROM userroutes WHERE userId=\"" + ob.getInt("user_id") + "\"");
 			PreparedStatement psBorrar3 = con.prepareStatement("DELETE FROM users WHERE id=\"" + ob.getInt("user_id") + "\"");
@@ -857,7 +900,7 @@ public class GestorHTTP implements HttpHandler {
 		JSONObject ob = new JSONObject(name);
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx","estoesunaprueba");
+			Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id=" + ob.getInt("user_id") + "");
 			while (rs.next()) {
@@ -880,8 +923,8 @@ public class GestorHTTP implements HttpHandler {
 		case "users":
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx",
-						"estoesunaprueba");
+				Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal",
+						"54487969SMM_2002");
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM users");
 				while (rs.next()) {
@@ -903,8 +946,8 @@ public class GestorHTTP implements HttpHandler {
 		case "route":
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx",
-						"estoesunaprueba");
+				Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal",
+						"54487969SMM_2002");
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM route");
 				while (rs.next()) {
@@ -926,8 +969,8 @@ public class GestorHTTP implements HttpHandler {
 		case "restsites":
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx",
-						"estoesunaprueba");
+				Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal",
+						"54487969SMM_2002");
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM restsites");
 				while (rs.next()) {
@@ -949,8 +992,8 @@ public class GestorHTTP implements HttpHandler {
 		case "userroutes":
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx",
-						"estoesunaprueba");
+				Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal",
+						"54487969SMM_2002");
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM userroutes");
 				while (rs.next()) {
@@ -972,8 +1015,8 @@ public class GestorHTTP implements HttpHandler {
 		case "visitedsites":
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://20.126.87.123:3306/wayx", "wayx",
-						"estoesunaprueba");
+				Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal",
+						"54487969SMM_2002");
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM visitedsites");
 				while (rs.next()) {
@@ -997,38 +1040,26 @@ public class GestorHTTP implements HttpHandler {
  
 	}
 	// FIN BLOQUE RESPONSE
-	public static void envioMail (String mensaje, String asunto, String email_remitente, String email_remitente_pass,String host_email, String port_email, String[] email_destino, String anexo1, String anexo2) throws UnsupportedEncodingException, MessagingException{	
+	public static void envioMail (String mensaje, String asunto, String hostEmail, String portEmail, String email, String email_remitente, String email_remitente_pass) throws UnsupportedEncodingException, MessagingException{	
 		Properties props = System.getProperties();
-		props.put("mail.smtp.host", host_email);
+		props.put("mail.smtp.host", hostEmail);
 		props.put("mail.smtp.user", email_remitente);
 		props.put("mail.smtp.clave", email_remitente_pass);
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.port", port_email);
+		props.put("mail.smtp.port", portEmail);
 		Session session = Session.getDefaultInstance(props);
 		MimeMessage message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(email_remitente));
-		for (int i = 0; i < email_destino.length; i++) {
-			message.addRecipients(Message.RecipientType.TO, email_destino[i]);
-		}
+		message.addRecipients(Message.RecipientType.TO, email);
 		message.setSubject(asunto);
 		BodyPart messageBodyPart1 = new MimeBodyPart();
 		messageBodyPart1.setText(mensaje);
-		BodyPart messageBodyPart2 = new MimeBodyPart();
-		DataSource src= new FileDataSource(anexo1);	
-		messageBodyPart2.setDataHandler(new DataHandler(src));
-		messageBodyPart2.setFileName(anexo1);
-		BodyPart messageBodyPart3 = new MimeBodyPart();
-		DataSource src2= new FileDataSource(anexo2);	
-		messageBodyPart3.setDataHandler(new DataHandler(src2));
-		messageBodyPart3.setFileName(anexo2);
 		Multipart multipart = new MimeMultipart();
 		multipart.addBodyPart(messageBodyPart1);
-		multipart.addBodyPart(messageBodyPart2);
-		multipart.addBodyPart(messageBodyPart3);
 		message.setContent(multipart);
 		Transport transport = session.getTransport("smtp");
-		transport.connect(host_email, email_remitente, email_remitente_pass);
+		transport.connect(hostEmail, email_remitente, email_remitente_pass);
 		transport.sendMessage(message, message.getAllRecipients());
 		transport.close();
 	}

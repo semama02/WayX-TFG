@@ -1,4 +1,4 @@
-ip=10.0.0.4
+ip=192.168.1.43
 puerto=5000
 contexto=/wayx
 backlog=0
