@@ -24,8 +24,12 @@ export default function RouteInfo(props) {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
 
-  const [datos, setDatos] = useState([]);
+  const [descripcion, setDescription] = useState("");
+  const [temp, setTemp] = useState("");
+  const [tempMin, setTempMin] = useState("");
+  const [tempMax, setTempMax] = useState("");
   
+  let tiempo
 
   useEffect(() => {
     const [lat, lng] = props.route.params.rut.map.split(",");
@@ -42,12 +46,14 @@ export default function RouteInfo(props) {
   }
 
   const getDatos = async () => {
-    console.log(props.route.params.rut.location)
     const res = await axios.get('https://api.openweathermap.org/data/2.5/weather?q=' +props.route.params.rut.location +'&units=metric&lang=es&APPID=1d89f0ecc30e4a2ab23f1d00bf2c9c09');
-    let pepe = res.data
-    // console.log(pepe)
-    setDatos(pepe);
-    console.log("HOLALAA" + datos)
+    tiempo = res.data
+    setDescription(tiempo.weather[0].description)
+    setTemp(tiempo.main.temp)
+    setTempMin(tiempo.main.temp_min)
+    setTempMax(tiempo.main.temp_max)
+    // console.log(respuesta['main'].humidity)
+    // console.log("HOLALAA" + datos['main'].humidity)
   }
 
   const [txtCompl, setTxtCompl] = useState(t("markCompletedBtn"));
@@ -219,15 +225,12 @@ export default function RouteInfo(props) {
               disabled={completed}
             />
           </View>
-          {/* <View style={styles.view}>
-                <Text style={styles.input}>País: {tiempo.name}</Text>
-                <Text style={styles.input}>Humedad: {tiempo.main.humidity}%</Text>
-                <Text style={styles.input}>Presión: {tiempo.main.pressure}Pa</Text>
-                <Text style={styles.input}>Sensación termica: {tiempo.main.feels_like}ºC</Text>
-                <Text style={styles.input}>Temperatura: {tiempo.main.temp}ºC</Text>
-                <Text style={styles.input}>Temperatura mínima: {tiempo.main.temp_min}ºC</Text>
-                <Text style={styles.input}>Temperatura máxima: {tiempo.main.temp_max}ºC</Text>
-            </View> */}
+          <View>
+            <Text style={styles.input}>Descripcion: {descripcion}</Text>
+            <Text style={styles.input}>Temperatura: {temp}ºC</Text>
+            <Text style={styles.input}>Temperatura mínima: {tempMin}ºC</Text>
+            <Text style={styles.input}>Temperatura máxima: {tempMax}ºC</Text>
+            </View>
         </ScrollView>
       </ImageBackground>
     </View>
