@@ -18,22 +18,36 @@ import axios from "axios";
 const ip = "http://85.56.203.68:5000/wayx"
 
 export default function RouteInfo(props) {
+
+
   const { t, i18n } = useTranslation();
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
+
+  const [datos, setDatos] = useState([]);
+  
+
   useEffect(() => {
     const [lat, lng] = props.route.params.rut.map.split(",");
     setLatitude(parseFloat(lat));
     setLongitude(parseFloat(lng));
     IsCompleted();
+    getDatos();
   }, []);
-  console.log(props.route.params.rut.map);
-
   // this function is used to open the google maps app with the route
   function openGps(lat, lng) {
     var scheme = Platform.OS === "ios" ? "maps:" : "google.navigation:q=";
     var url = scheme + `${lat},${lng}`;
     Linking.openURL(url);
+  }
+
+  const getDatos = async () => {
+    console.log(props.route.params.rut.location)
+    const res = await axios.get('https://api.openweathermap.org/data/2.5/weather?q=' +props.route.params.rut.location +'&units=metric&lang=es&APPID=1d89f0ecc30e4a2ab23f1d00bf2c9c09');
+    let pepe = res.data
+    // console.log(pepe)
+    setDatos(pepe);
+    console.log("HOLALAA" + datos)
   }
 
   const [txtCompl, setTxtCompl] = useState(t("markCompletedBtn"));
@@ -50,13 +64,10 @@ export default function RouteInfo(props) {
           "}"
       )
       .then((res) => {
-        console.log(res.data);
         if (res.data === "Ok") {
-          console.log("Lacasitos");
           setCompleted(true);
           setTxtCompl(t("markCompleted"));
         } else {
-          console.log("pomodoro");
           setCompleted(false);
           setTxtCompl(t("markCompletedBtn"));
         }
@@ -68,14 +79,12 @@ export default function RouteInfo(props) {
   };
 
   const VisitSite = () => {
-    console.log(
       ip,
       '{"type":"visited_site_add","user_id":' +
         props.route.params.user.id +
         ',"route_id":' +
         props.route.params.rut.id +
-        "}"
-    );
+        "}";
 
     axios
       .post(
@@ -87,12 +96,10 @@ export default function RouteInfo(props) {
           "}"
       )
       .then((res) => {
-        console.log(res.data);
         setTxtCompl(t("markCompleted"));
         setCompleted(true);
       })
       .catch((res) => {
-        console.log(res.data);
         console.log("Error");
       });
   };
@@ -212,6 +219,15 @@ export default function RouteInfo(props) {
               disabled={completed}
             />
           </View>
+          {/* <View style={styles.view}>
+                <Text style={styles.input}>País: {tiempo.name}</Text>
+                <Text style={styles.input}>Humedad: {tiempo.main.humidity}%</Text>
+                <Text style={styles.input}>Presión: {tiempo.main.pressure}Pa</Text>
+                <Text style={styles.input}>Sensación termica: {tiempo.main.feels_like}ºC</Text>
+                <Text style={styles.input}>Temperatura: {tiempo.main.temp}ºC</Text>
+                <Text style={styles.input}>Temperatura mínima: {tiempo.main.temp_min}ºC</Text>
+                <Text style={styles.input}>Temperatura máxima: {tiempo.main.temp_max}ºC</Text>
+            </View> */}
         </ScrollView>
       </ImageBackground>
     </View>

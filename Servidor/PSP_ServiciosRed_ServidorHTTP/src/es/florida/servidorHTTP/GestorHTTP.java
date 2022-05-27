@@ -18,6 +18,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.activation.DataHandler;
@@ -76,7 +77,12 @@ public class GestorHTTP implements HttpHandler {
 	    } else if ("PUT".equalsIgnoreCase(httpExchange.getRequestMethod())) { 
 	        System.out.println("PUT");
 	        requestParamValue = handlePutRequest(httpExchange);
-	        handlePutResponse(httpExchange,requestParamValue);
+	        try {
+				handlePutResponse(httpExchange,requestParamValue);
+			} catch (ClassNotFoundException | IOException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    } else if ("DELETE".equals(httpExchange.getRequestMethod())) { 
 	        System.out.println("DELETE");
 	        requestParamValue = handleDeleteRequest(httpExchange);
@@ -296,15 +302,16 @@ public class GestorHTTP implements HttpHandler {
 		} else if (ob.getString("type").equals("forgot_password")) {
 			verificar_email(requestParamValue);
 			OutputStream outputStream = httpExchange.getResponseBody();
-			String htmlResponse = email;
+			String htmlResponse = valor;
 			httpExchange.sendResponseHeaders(200, htmlResponse.length());
 			outputStream.write(htmlResponse.getBytes());
 			outputStream.flush();
 			outputStream.close();
-		}
+		} 
 	}
  
-	private void handlePutResponse(HttpExchange httpExchange, String requestParamValue)  throws  IOException {
+	
+	private void handlePutResponse(HttpExchange httpExchange, String requestParamValue)  throws  IOException, ClassNotFoundException, SQLException {
  
 		System.out.println("El servidor pasa a procesar el body de la peticion PUT: " + requestParamValue);
  
@@ -314,6 +321,14 @@ public class GestorHTTP implements HttpHandler {
 			update_profile(requestParamValue);
 			OutputStream outputStream = httpExchange.getResponseBody();
 			String htmlResponse = profile_update;
+			httpExchange.sendResponseHeaders(200, htmlResponse.length());
+			outputStream.write(htmlResponse.getBytes());
+			outputStream.flush();
+			outputStream.close();
+		} else if (ob.getString("type").equals("update_password")) {
+			update_password(requestParamValue);
+			OutputStream outputStream = httpExchange.getResponseBody();
+			String htmlResponse = password_update;
 			httpExchange.sendResponseHeaders(200, htmlResponse.length());
 			outputStream.write(htmlResponse.getBytes());
 			outputStream.flush();
@@ -757,10 +772,13 @@ public class GestorHTTP implements HttpHandler {
 		return visited;
 	}
 	
-	public static String email = "";
+	public static String valor = "";
+	public static Integer random_number;
 	public static String verificar_email(String name) throws SQLException, ClassNotFoundException {
-		email = "";
-		String valor = "";
+		valor = "";
+		Random rand = new Random();
+		random_number = rand.nextInt(100000);
+		Integer contador = 0;
 		JSONObject ob = new JSONObject(name);
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
@@ -773,18 +791,18 @@ public class GestorHTTP implements HttpHandler {
 		String hostEmail = "smtp.gmail.com";
 		String portEmail = "587";
 		String strAsunto = "Recuperar Contraseña";
-		String strMensaje = "HEMOS SUFRIDO UNA AVERIA!!!";
+		String strMensaje = "Estimado cliente de WayX, \nHa solicitado un cambio de contraseña. \nMuchas gracias por ser fiel a nuestros servicios, a continuación le adjuntamos el código que tiene que poner en la aplicación para cambiar la contraseña: \nCódigo: " + random_number;
 		String emailRemitente = "aev07add@gmail.com";
 		String emailRemitentePass = "SMM_2002";
 		String email = ob.getString("email");
 	    for (int i = 0; i < emails.size(); i++) {
-	    	if (emails.get(i) == email) {
-	    		valor =  "true";
+	    	if (emails.get(i).equals(email)) {
 	    		try {
 	    			envioMail(strMensaje, strAsunto, hostEmail, portEmail, email, emailRemitente, emailRemitentePass);
 	    		}catch (UnsupportedEncodingException | MessagingException e) {
 	    			e.printStackTrace();
 	    		}
+	    		valor = "true," + random_number;
 	    	}else {
 	    		valor = "false";
 	    	}
@@ -872,6 +890,19 @@ public class GestorHTTP implements HttpHandler {
 				}
 			}
 		return name;
+	}
+	
+	public static String password_update = "";
+	public static String update_password(String name) throws ClassNotFoundException, SQLException {
+		System.out.println("HOLAAAA FALLLOOOOOOO");
+		password_update = "";
+		JSONObject ob = new JSONObject(name);
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://85.56.203.68:3306/wayx", "smariscal","54487969SMM_2002");
+			PreparedStatement psActualizar = con.prepareStatement("UPDATE users SET password= \"" + ob.getString("password")+ "\" WHERE email= \"" + ob.getString("email")+ "\"");
+			int resultadoActualizar = psActualizar.executeUpdate();
+			password_update = "HOLA";
+		return password_update;
 	}
 	
 	public static String deleted_profile = "";
